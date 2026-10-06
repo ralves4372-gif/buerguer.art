@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Burguer Master | Hambúrguer Artesanal</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts & Font Awesome Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            orange: '#FF5500',
+                            yellow: '#FFB800',
+                            dark: '#0F0F11',
+                            card: '#18181C',
+                            border: '#27272A',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0F0F11;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #27272A;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #FF5500;
+        }
+        .gradient-overlay {
+            background: linear-gradient(180deg, rgba(15,15,17,0.3) 0%, rgba(15,15,17,0.95) 100%);
+        }
+        .glass-panel {
+            background: rgba(24, 24, 28, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+    </style>
+</head>
+<body class="bg-brand-dark text-gray-100 font-sans min-h-screen flex flex-col selection:bg-brand-orange selection:text-white">
+
+    <header class="sticky top-0 z-40 glass-panel border-b border-brand-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Logo -->
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="w-12 h-12 bg-gradient-to-tr from-brand-orange to-brand-yellow rounded-2xl flex items-center justify-center text-black font-extrabold text-2xl shadow-lg shadow-brand-orange/20 group-hover:scale-105 transition-transform">
+                    <i class="fa-solid font-black fa-burger"></i>
+                </div>
+                <div>
+                    <span class="text-xl font-extrabold tracking-tight text-white block">BURGUER<span class="text-brand-orange">.ART</span></span>
+                    <span class="text-xs text-gray-400 font-medium">Hambúrguer de Verdade</span>
+                </div>
+            </a>
+
+            <!-- Status Indicator (Desktop) -->
+            <div class="hidden md:flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/20 px-3 py-1.5 rounded-full text-xs font-semibold text-emerald-400">
+                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                ABERTO AGORA (Entrega em ~35 min)
+            </div>
+
+            <!-- Desktop Nav Links -->
+            <nav class="hidden lg:flex items-center gap-8 text-sm font-semibold">
+                <a href="#menu" class="hover:text-brand-orange transition-colors">Cardápio</a>
+                <a href="#promos" class="hover:text-brand-orange transition-colors">Ofertas</a>
+                <a href="#differentials" class="hover:text-brand-orange transition-colors">Diferenciais</a>
+                <a href="#reviews" class="hover:text-brand-orange transition-colors">Avaliações</a>
+                <a href="#contact" class="hover:text-brand-orange transition-colors">Contato</a>
+            </nav>
+
+            <!-- Actions -->
+            <div class="flex items-center gap-3">
+                <button onclick="toggleCart()" class="relative bg-brand-card hover:bg-brand-border border border-brand-border text-white p-3 rounded-2xl transition-all flex items-center justify-center shadow-lg group">
+                    <i class="fa-solid fa-basket-shopping text-lg group-hover:text-brand-orange transition-colors"></i>
+                    <span id="cart-badge" class="absolute -top-1.5 -right-1.5 bg-brand-orange text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center hidden shadow-md">0</span>
+                </button>
+                <a href="#menu" class="hidden sm:inline-flex bg-gradient-to-r from-brand-orange to-amber-600 hover:from-amber-600 hover:to-brand-orange text-white font-bold px-5 py-3 rounded-2xl shadow-lg shadow-brand-orange/25 hover:shadow-brand-orange/40 transition-all text-sm items-center gap-2">
+                    Fazer Pedido
+                    <i class="fa-solid fa-arrow-right text-xs"></i>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <section class="relative min-h-[85vh] flex items-center justify-center overflow-hidden py-12">
+        <!-- Background Image with Overlay -->
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1586190848861-99aa4a171e90?q=80&w=1600&auto=format&fit=crop" alt="Hambúrguer Suculento Artesanal" class="w-full h-full object-cover object-center scale-105 animate-pulse" style="animation-duration: 8s;">
+            <div class="absolute inset-0 gradient-overlay"></div>
+        </div>
+
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center sm:text-left grid lg:grid-cols-12 gap-8 items-center">
+            <div class="lg:col-span-7 space-y-6">
+                <!-- Badge -->
+                <div class="inline-flex items-center gap-2 bg-brand-orange/20 border border-brand-orange/40 px-4 py-2 rounded-full text-brand-orange text-xs font-bold tracking-wide uppercase backdrop-blur-md">
+                    <i class="fa-solid fa-fire animate-bounce"></i> Blend 100% Angus & Pão Artesanal Assado Hoje
+                </div>
+                
+                <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white leading-tight">
+                    O Verdadeiro Sabor do <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-orange via-brand-yellow to-orange-400">Hambúrguer Artesanal</span>
+                </h1>
+                
+                <p class="text-gray-300 text-lg sm:text-xl max-w-2xl font-medium leading-relaxed">
+                    Carne alta, queijo Derretido de verdade, molhos autorais e batatas crocantes. Peça online e receba na sua casa quentinho!
+                </p>
+
+                <!-- CTA Buttons -->
+                <div class="flex flex-col sm:flex-row items-center gap-4 pt-2">
+                    <a href="#menu" class="w-full sm:w-auto bg-gradient-to-r from-brand-orange to-amber-600 hover:from-amber-600 hover:to-brand-orange text-white text-lg font-bold px-8 py-4 rounded-2xl shadow-xl shadow-brand-orange/30 hover:scale-[1.02] transition-all flex items-center justify-center gap-3">
+                        <i class="fa-solid fa-burger"></i>
+                        Ver Cardápio & Pedir
+                    </a>
+                    <a href="https://wa.me/5521999999999?text=Ol%C3%A1%21+Gostaria+de+saber+mais+sobre+o+card%C3%A1pio" target="_blank" class="w-full sm:w-auto bg-brand-card hover:bg-brand-border border border-brand-border text-white text-lg font-semibold px-8 py-4 rounded-2xl transition-all flex items-center justify-center gap-3">
+                        <i class="fa-brands fa-whatsapp text-emerald-500 text-xl"></i>
+                        Falar no WhatsApp
+                    </a>
+                </div>
+
+                <!-- Info Grid -->
+                <div class="grid grid-cols-3 gap-4 pt-6 border-t border-brand-border/60 max-w-xl">
+                    <div class="text-center sm:text-left">
+                        <span class="block text-2xl font-black text-white">4.9 ★</span>
+                        <span class="text-xs text-gray-400 font-medium">+1.2k avaliações</span>
+                    </div>
+                    <div class="text-center sm:text-left">
+                        <span class="block text-2xl font-black text-white">35-45 min</span>
+                        <span class="text-xs text-gray-400 font-medium">Tempo médio</span>
+                    </div>
+                    <div class="text-center sm:text-left">
+                        <span class="block text-2xl font-black text-white">Grátis</span>
+                        <span class="text-xs text-gray-400 font-medium">1º Pedido pelo site</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="promos" class="py-12 bg-gradient-to-b from-brand-dark to-black border-y border-brand-border/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
+                <div>
+                    <span class="text-brand-orange font-bold text-sm tracking-widest uppercase">Promoções Especiais</span>
+                    <h2 class="text-3xl font-extrabold text-white mt-1">Combos da Semana com Desconto</h2>
+                </div>
+                <div class="flex items-center gap-2 bg-brand-card border border-brand-border px-4 py-2 rounded-xl text-sm font-semibold text-brand-yellow">
+                    <i class="fa-solid fa-clock"></i>
+                    Ofertas encerram em: <span id="countdown" class="font-mono font-bold text-white">04:12:30</span>
+                </div>
+            </div>
+
+            <!-- Promos Grid -->
+            <div class="grid md:grid-cols-2 gap-6">
+                <!-- Promo Card 1 -->
+                <div class="bg-brand-card border border-brand-border rounded-3xl p-6 relative overflow-hidden flex flex-col sm:flex-row gap-6 items-center group hover:border-brand-orange/50 transition-all">
+                    <div class="absolute -right-6 -top-6 bg-brand-orange text-white text-xs font-black px-8 py-3 rotate-12 shadow-lg z-10">
+                        25% OFF
+                    </div>
+                    <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=600&auto=format&fit=crop" alt="Combo Casal" class="w-full sm:w-40 h-40 object-cover rounded-2xl group-hover:scale-105 transition-transform">
+                    <div class="space-y-2 flex-1">
+                        <h3 class="text-xl font-bold text-white">Combo Casal Gourmet</h3>
+                        <p class="text-sm text-gray-400">2x Bacon Master Burgers + 1x Batata Supreme GG + 2x Refrigerante Lata.</p>
+                        <div class="flex items-center gap-3 pt-2">
+                            <span class="text-2xl font-black text-brand-orange">R$ 79,90</span>
+                            <span class="text-sm text-gray-500 line-through font-semibold">R$ 105,00</span>
+                        </div>
+                        <button onclick="addToCart(99, 'Combo Casal Gourmet', 79.90, 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=600&auto=format&fit=crop')" class="w-full mt-3 bg-brand-orange/10 hover:bg-brand-orange border border-brand-orange/30 hover:border-brand-orange text-brand-orange hover:text-white font-bold py-2.5 rounded-xl transition-all text-sm flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-plus"></i> Adicionar Combo
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Promo Card 2 -->
+                <div class="bg-brand-card border border-brand-border rounded-3xl p-6 relative overflow-hidden flex flex-col sm:flex-row gap-6 items-center group hover:border-brand-orange/50 transition-all">
+                    <div class="absolute -right-6 -top-6 bg-brand-yellow text-black text-xs font-black px-8 py-3 rotate-12 shadow-lg z-10">
+                        O MAIS PEDIDO
+                    </div>
+                    <img src="https://images.unsplash.com/photo-1550547660-d9450f859349?q=80&w=600&auto=format&fit=crop" alt="Combo Individual" class="w-full sm:w-40 h-40 object-cover rounded-2xl group-hover:scale-105 transition-transform">
+                    <div class="space-y-2 flex-1">
+                        <h3 class="text-xl font-bold text-white">Combo Individual Smash</h3>
+                        <p class="text-sm text-gray-400">1x Double Smash Cheddar + Batata M + Milkshake Nutella 400ml.</p>
+                        <div class="flex items-center gap-3 pt-2">
+                            <span class="text-2xl font-black text-brand-orange">R$ 49,90</span>
+                            <span class="text-sm text-gray-500 line-through font-semibold">R$ 62,00</span>
+                        </div>
+                        <button onclick="addToCart(98, 'Combo Individual Smash', 49.90, 'https://images.unsplash.com/photo-1550547660-d9450f859349?q=80&w=600&auto=format&fit=crop')" class="w-full mt-3 bg-brand-orange/10 hover:bg-brand-orange border border-brand-orange/30 hover:border-brand-orange text-brand-orange hover:text-white font-bold py-2.5 rounded-xl transition-all text-sm flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-plus"></i> Adicionar Combo
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="menu" class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-2xl mx-auto mb-10">
+            <span class="text-brand-orange font-bold text-sm tracking-widest uppercase">Escolha o seu preferido</span>
+            <h2 class="text-3xl sm:text-4xl font-black text-white mt-1">Nosso Cardápio Artesanal</h2>
+            <p class="text-gray-400 mt-2 text-sm sm:text-base">Monte seu pedido de forma rápida e prática. Enviamos direto para o WhatsApp do restaurante!</p>
+        </div>
+
+        <!-- Category Filter Tabs -->
+        <div class="flex items-center gap-2 overflow-x-auto pb-4 mb-8 no-scrollbar justify-start sm:justify-center">
+            <button onclick="filterCategory('all')" class="cat-btn active bg-brand-orange text-white font-bold px-6 py-3 rounded-2xl whitespace-nowrap text-sm transition-all shadow-md">
+                Todos os Itens
+            </button>
+            <button onclick="filterCategory('burgers')" class="cat-btn bg-brand-card hover:bg-brand-border text-gray-300 font-semibold px-6 py-3 rounded-2xl whitespace-nowrap text-sm transition-all">
+                🍔 Hambúrgueres
+            </button>
+            <button onclick="filterCategory('combos')" class="cat-btn bg-brand-card hover:bg-brand-border text-gray-300 font-semibold px-6 py-3 rounded-2xl whitespace-nowrap text-sm transition-all">
+                🔥 Combos
+            </button>
+            <button onclick="filterCategory('sides')" class="cat-btn bg-brand-card hover:bg-brand-border text-gray-300 font-semibold px-6 py-3 rounded-2xl whitespace-nowrap text-sm transition-all">
+                🍟 Acompanhamentos
+            </button>
+            <button onclick="filterCategory('drinks')" class="cat-btn bg-brand-card hover:bg-brand-border text-gray-300 font-semibold px-6 py-3 rounded-2xl whitespace-nowrap text-sm transition-all">
+                🥤 Bebidas & Shakes
+            </button>
+        </div>
+
+        <!-- Products Grid -->
+        <div id="products-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Items rendered dynamically via JavaScript -->
+        </div>
+    </section>
+
+    <section id="differentials" class="py-16 bg-brand-card/50 border-y border-brand-border/60">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-12">
+                <span class="text-brand-orange font-bold text-sm tracking-widest uppercase">Qualidade Incomparável</span>
+                <h2 class="text-3xl font-extrabold text-white mt-1">Por que escolher o Burguer Master?</h2>
+            </div>
+
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="bg-brand-card p-6 rounded-3xl border border-brand-border/80 text-center space-y-3">
+                    <div class="w-14 h-14 bg-brand-orange/10 rounded-2xl flex items-center justify-center text-brand-orange text-2xl mx-auto">
+                        <i class="fa-solid fa-cow"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white">Blend Angus 100%</h3>
+                    <p class="text-sm text-gray-400">Carne sempre fresca, moída diariamente sem adição de conservantes.</p>
+                </div>
+
+                <div class="bg-brand-card p-6 rounded-3xl border border-brand-border/80 text-center space-y-3">
+                    <div class="w-14 h-14 bg-brand-yellow/10 rounded-2xl flex items-center justify-center text-brand-yellow text-2xl mx-auto">
+                        <i class="fa-solid fa-bread-slice"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white">Pão Artesanal</h3>
+                    <p class="text-sm text-gray-400">Pães selados na manteiga, extremamente macios e assados no dia.</p>
+                </div>
+
+                <div class="bg-brand-card p-6 rounded-3xl border border-brand-border/80 text-center space-y-3">
+                    <div class="w-14 h-14 bg-emerald-500/10 rounded-2xl flex items-center justify-center text-emerald-400 text-2xl mx-auto">
+                        <i class="fa-solid fa-pepper-hot"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white">Molhos Secretos</h3>
+                    <p class="text-sm text-gray-400">Maioneses temperadas e molhos autorais produzidos em nossa cozinha.</p>
+                </div>
+
+                <div class="bg-brand-card p-6 rounded-3xl border border-brand-border/80 text-center space-y-3">
+                    <div class="w-14 h-14 bg-blue-500/10 rounded-2xl flex items-center justify-center text-blue-400 text-2xl mx-auto">
+                        <i class="fa-solid fa-motorcycle"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white">Entrega Super Rápida</h3>
+                    <p class="text-sm text-gray-400">Embalagens térmicas especiais que mantêm seu hambúrguer quente e crocante.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="reviews" class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-2xl mx-auto mb-12">
+            <span class="text-brand-orange font-bold text-sm tracking-widest uppercase">Quem provou, aprovou</span>
+            <h2 class="text-3xl font-extrabold text-white mt-1">O que nossos clientes dizem</h2>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-6">
+            <!-- Review 1 -->
+            <div class="bg-brand-card p-6 rounded-3xl border border-brand-border space-y-4">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=150&auto=format&fit=crop" alt="Mariana Silva" class="w-12 h-12 rounded-full object-cover">
+                        <div>
+                            <h4 class="font-bold text-white text-sm">Mariana Silva</h4>
+                            <span class="text-xs text-gray-400">Cliente Recorrente</span>
+                        </div>
+                    </div>
+                    <span class="text-brand-yellow text-sm">★★★★★</span>
+                </div>
+                <p class="text-sm text-gray-300 leading-relaxed">
+                    "O melhor hambúrguer da cidade sem sombra de dúvidas! O ponto da carne veio impecável e o cheddar é de altíssima qualidade. O pedido chegou em menos de 30 minutos!"
+                </p>
+            </div>
+
+            <!-- Review 2 -->
+            <div class="bg-brand-card p-6 rounded-3xl border border-brand-border space-y-4">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=150&auto=format&fit=crop" alt="Lucas Mendes" class="w-12 h-12 rounded-full object-cover">
+                        <div>
+                            <h4 class="font-bold text-white text-sm">Lucas Mendes</h4>
+                            <span class="text-xs text-gray-400">Google Review</span>
+                        </div>
+                    </div>
+                    <span class="text-brand-yellow text-sm">★★★★★</span>
+                </div>
+                <p class="text-sm text-gray-300 leading-relaxed">
+                    "Atendimento excepcional e facilidade de pedir pelo WhatsApp. Recomendo demais o Bacon Supreme com batata frita e molho de alho da casa. Nota 10!"
+                </p>
+            </div>
+
+            <!-- Review 3 -->
+            <div class="bg-brand-card p-6 rounded-3xl border border-brand-border space-y-4">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=150&auto=format&fit=crop" alt="Camila Rocha" class="w-12 h-12 rounded-full object-cover">
+                        <div>
+                            <h4 class="font-bold text-white text-sm">Camila Rocha</h4>
+                            <span class="text-xs text-gray-400">iFood Top Reviewer</span>
+                        </div>
+                    </div>
+                    <span class="text-brand-yellow text-sm">★★★★★</span>
+                </div>
+                <p class="text-sm text-gray-300 leading-relaxed">
+                    "Pão leve, carne suculenta e sabor incomparável. Pedi o combo casal e valeu cada centavo. Viramos fãs e pedimos quase todo final de semana."
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="py-16 bg-brand-card border-t border-brand-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-12 items-center">
+            <div class="space-y-6">
+                <span class="text-brand-orange font-bold text-sm tracking-widest uppercase">Venha nos visitar</span>
+                <h2 class="text-3xl font-extrabold text-white">Localização e Horários</h2>
+                <p class="text-gray-400">Preferir retirar seu pedido no balcão ou comer no nosso espaço aconchegante? Estamos te esperando!</p>
+
+                <div class="space-y-4 pt-2">
+                    <div class="flex items-start gap-4">
+                        <div class="w-10 h-10 bg-brand-orange/10 rounded-xl flex items-center justify-center text-brand-orange shrink-0 mt-1">
+                            <i class="fa-solid fa-location-dot"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-white">Endereço</h4>
+                            <p class="text-sm text-gray-400">Av. Principal das Lanchonetes, 1230 - Centro Gourmet, Rio de Janeiro - RJ</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start gap-4">
+                        <div class="w-10 h-10 bg-brand-orange/10 rounded-xl flex items-center justify-center text-brand-orange shrink-0 mt-1">
+                            <i class="fa-solid fa-clock"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-white">Horário de Funcionamento</h4>
+                            <p class="text-sm text-gray-400">Terça a Domingo: 18:00 às 23:30</p>
+                            <p class="text-xs text-brand-orange font-semibold mt-0.5">Sextas e Sábados até 00:30</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start gap-4">
+                        <div class="w-10 h-10 bg-brand-orange/10 rounded-xl flex items-center justify-center text-brand-orange shrink-0 mt-1">
+                            <i class="fa-solid fa-phone"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-white">Contato Direct</h4>
+                            <p class="text-sm text-gray-400">(21) 99999-9999 | contato@burguerart.com.br</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Simulated Map Container -->
+            <div class="bg-brand-dark p-4 rounded-3xl border border-brand-border h-80 relative overflow-hidden flex flex-col justify-end group">
+                <img src="https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?q=80&w=800&auto=format&fit=crop" alt="Mapa" class="absolute inset-0 w-full h-full object-cover opacity-40 group-hover:scale-105 transition-transform duration-500">
+                <div class="relative z-10 glass-panel p-4 rounded-2xl flex items-center justify-between">
+                    <div>
+                        <span class="font-bold text-white text-sm block">Unidade Central</span>
+                        <span class="text-xs text-gray-400">Estacionamento gratuito no local</span>
+                    </div>
+                    <a href="https://maps.google.com" target="_blank" class="bg-brand-orange hover:bg-amber-600 text-white text-xs font-bold px-4 py-2 rounded-xl transition-all">
+                        Como Chegar
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-black py-10 border-t border-brand-border text-gray-500 text-xs">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 bg-brand-orange rounded-xl flex items-center justify-center text-black font-extrabold text-lg">
+                    <i class="fa-solid fa-burger"></i>
+                </div>
+                <span class="text-sm font-bold text-white">BURGUER<span class="text-brand-orange">.ART</span></span>
+            </div>
+            <p>© 2026 Burguer Art Hamburgueria. Todos os direitos reservados.</p>
+            <div class="flex items-center gap-4 text-base">
+                <a href="#" class="hover:text-brand-orange transition-colors"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#" class="hover:text-brand-orange transition-colors"><i class="fa-brands fa-facebook"></i></a>
+                <a href="#" class="hover:text-brand-orange transition-colors"><i class="fa-brands fa-whatsapp"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <div id="cart-drawer" class="fixed inset-0 z-50 pointer-events-none transition-opacity duration-300 opacity-0">
+        <!-- Backdrop -->
+        <div id="cart-backdrop" onclick="toggleCart()" class="absolute inset-0 bg-black/70 backdrop-blur-sm transition-opacity"></div>
+        
+        <!-- Drawer Content -->
+        <div id="cart-panel" class="absolute right-0 top-0 bottom-0 w-full max-w-md bg-brand-card border-l border-brand-border p-6 flex flex-col pointer-events-auto transform translate-x-full transition-transform duration-300 ease-in-out shadow-2xl">
+            <!-- Header -->
+            <div class="flex items-center justify-between border-b border-brand-border pb-4">
+                <div class="flex items-center gap-3">
+                    <i class="fa-solid fa-bag-shopping text-brand-orange text-xl"></i>
+                    <h3 class="text-lg font-bold text-white">Seu Pedido</h3>
+                </div>
+                <button onclick="toggleCart()" class="w-8 h-8 rounded-full bg-brand-dark text-gray-400 hover:text-white flex items-center justify-center transition-colors">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- Items List -->
+            <div id="cart-items" class="flex-1 overflow-y-auto py-4 space-y-4">
+                <!-- Cart items inserted via JS -->
+            </div>
+
+            <!-- Order Options & Checkout -->
+            <div id="cart-footer" class="border-t border-brand-border pt-4 space-y-4">
+                <!-- Delivery Type -->
+                <div>
+                    <label class="text-xs font-bold uppercase text-gray-400 mb-1 block">Tipo de Pedido</label>
+                    <div class="grid grid-cols-2 gap-2">
+                        <button onclick="setDeliveryType('delivery')" id="btn-delivery" class="bg-brand-orange text-white py-2 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1">
+                            <i class="fa-solid fa-motorcycle"></i> Delivery
+                        </button>
+                        <button onclick="setDeliveryType('pickup')" id="btn-pickup" class="bg-brand-dark text-gray-400 hover:text-white py-2 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1 border border-brand-border">
+                            <i class="fa-solid fa-store"></i> Retirada
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Input Fields -->
+                <div class="space-y-2">
+                    <input type="text" id="cust-name" placeholder="Seu Nome completo *" class="w-full bg-brand-dark border border-brand-border text-white text-xs rounded-xl px-3 py-2.5 focus:outline-none focus:border-brand-orange">
+                    <input type="text" id="cust-address" placeholder="Endereço de Entrega (Rua, Nº, Bairro) *" class="w-full bg-brand-dark border border-brand-border text-white text-xs rounded-xl px-3 py-2.5 focus:outline-none focus:border-brand-orange">
+                    
+                    <select id="cust-payment" class="w-full bg-brand-dark border border-brand-border text-gray-300 text-xs rounded-xl px-3 py-2.5 focus:outline-none focus:border-brand-orange">
+                        <option value="PIX">Pagamento: PIX (Chave no WhatsApp)</option>
+                        <option value="Cartão de Crédito/Débito">Pagamento: Cartão na Entregadora</option>
+                        <option value="Dinheiro">Pagamento: Dinheiro (Troco)</option>
+                    </select>
+
+                    <input type="text" id="cust-notes" placeholder="Observações (ex: sem cebola, ponto da carne)" class="w-full bg-brand-dark border border-brand-border text-white text-xs rounded-xl px-3 py-2.5 focus:outline-none focus:border-brand-orange">
+                </div>
+
+                <!-- Summary -->
+                <div class="space-y-1 pt-2 border-t border-brand-border/60">
+                    <div class="flex justify-between text-xs text-gray-400">
+                        <span>Subtotal:</span>
+                        <span id="cart-subtotal">R$ 0,00</span>
+                    </div>
+                    <div class="flex justify-between text-xs text-gray-400">
+                        <span>Taxa de Entrega:</span>
+                        <span id="cart-delivery-fee">R$ 7,00</span>
+                    </div>
+                    <div class="flex justify-between text-base font-extrabold text-white pt-1">
+                        <span>Total:</span>
+                        <span id="cart-total" class="text-brand-orange">R$ 0,00</span>
+                    </div>
+                </div>
+
+                <!-- Checkout Button -->
+                <button onclick="checkoutWhatsApp()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3.5 rounded-2xl shadow-lg shadow-emerald-600/30 transition-all flex items-center justify-center gap-2 text-sm">
+                    <i class="fa-brands fa-whatsapp text-lg"></i>
+                    Enviar Pedido no WhatsApp
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="fixed bottom-6 right-6 z-30">
+        <button onclick="toggleCart()" class="bg-gradient-to-r from-brand-orange to-amber-600 text-white p-4 rounded-full shadow-2xl shadow-brand-orange/50 flex items-center gap-3 hover:scale-110 transition-transform active:scale-95 border border-white/20">
+            <div class="relative">
+                <i class="fa-solid fa-cart-shopping text-xl"></i>
+                <span id="float-badge" class="absolute -top-3 -right-3 bg-white text-brand-orange font-black text-xs w-5 h-5 rounded-full flex items-center justify-center shadow">0</span>
+            </div>
+            <span class="font-extrabold text-sm hidden sm:inline">Meu Pedido</span>
+        </button>
+    </div>
+
+    <script>
+        // Data Products Menu
+        const products = [
+            {
+                id: 1,
+                name: "Master Bacon Burger",
+                category: "burgers",
+                price: 38.90,
+                description: "Blend Angus 180g, fatias crocantes de bacon, queijo cheddar inglês derretido e maionese defumada da casa no pão brioche.",
+                image: "https://images.unsplash.com/photo-1553979459-d2229ba7433b?q=80&w=600&auto=format&fit=crop",
+                badge: "Mais Pedido"
+            },
+            {
+                id: 2,
+                name: "Double Smash Cheese",
+                category: "burgers",
+                price: 32.90,
+                description: "2x Blends Smash 90g ultra selados com crostinha perfeita, duplo cheddar americano, picles artesanal e molho especial.",
+                image: "https://images.unsplash.com/photo-1586190848861-99aa4a171e90?q=80&w=600&auto=format&fit=crop",
+                badge: null
+            },
+            {
+                id: 3,
+                name: "Truffled Gorgonzola",
+                category: "burgers",
+                price: 42.90,
+                description: "Blend 180g, creme de queijo gorgonzola aveludado, cebola caramelizada no vinho tinto e azeite trufado.",
+                image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=600&auto=format&fit=crop",
+                badge: "Gourmet"
+            },
+            {
+                id: 4,
+                name: "Crispy Chicken Master",
+                category: "burgers",
+                price: 34.90,
+                description: "Sobrecoxa de frango super crocante empanada na panko, salada coleslaw, picles e maionese de ervas.",
+                image: "https://images.unsplash.com/photo-1625813506062-0aeb1d7a094b?q=80&w=600&auto=format&fit=crop",
+                badge: null
+            },
+            {
+                id: 5,
+                name: "Combo Galera (4 Burguers + Batata G)",
+                category: "combos",
+                price: 129.90,
+                description: "4x Cheeseburgers Smash + Batata Frita Supreme G + 1 Refrigerante 1.5L à sua escolha.",
+                image: "https://images.unsplash.com/photo-1550547660-d9450f859349?q=80&w=600&auto=format&fit=crop",
+                badge: "Especial"
+            },
+            {
+                id: 6,
+                name: "Batata Supreme Cheddar & Bacon",
+                category: "sides",
+                price: 24.90,
+                description: "Batatas rústicas artesanais crocantes cobertas com creme de cheddar cremoso e farofa de bacon real.",
+                image: "https://images.unsplash.com/photo-1573080496219-bb080dd4f877?q=80&w=600&auto=format&fit=crop",
+                badge: "Crocante"
+            },
+            {
+                id: 7,
+                name: "Onion Rings Crocantes",
+                category: "sides",
+                price: 19.90,
+                description: "Anéis de cebola empanados e fritos ao ponto de ouro. Acompanha molho barbecue da casa.",
+                image: "https://images.unsplash.com/photo-1639024471283-03518883512d?q=80&w=600&auto=format&fit=crop",
+                badge: null
+            },
+            {
+                id: 8,
+                name: "Milkshake Nutella Raíz 500ml",
+                category: "drinks",
+                price: 22.90,
+                description: "Sorvete artesanal de baunilha batido com muita Nutella pura e chantilly especial por cima.",
+                image: "https://images.unsplash.com/photo-1572490122747-3968b75cc699?q=80&w=600&auto=format&fit=crop",
+                badge: "Sobremesa"
+            },
+            {
+                id: 9,
+                name: "Coca-Cola Zero Lata 350ml",
+                category: "drinks",
+                price: 7.00,
+                description: "Lata trincando de gelada.",
+                image: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?q=80&w=600&auto=format&fit=crop",
+                badge: null
+            }
+        ];
+
+        // Cart State
+        let cart = [];
+        let deliveryType = 'delivery'; // 'delivery' or 'pickup'
+        const DELIVERY_FEE = 7.00;
+
+        // Render Products
+        function renderProducts(items) {
+            const grid = document.getElementById('products-grid');
+            grid.innerHTML = '';
+
+            items.forEach(product => {
+                const card = document.createElement('div');
+                card.className = 'bg-brand-card rounded-3xl border border-brand-border overflow-hidden flex flex-col group hover:border-brand-orange/40 transition-all duration-300 shadow-xl';
+                
+                card.innerHTML = `
+                    <div class="relative h-52 overflow-hidden">
+                        <img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        ${product.badge ? `<span class="absolute top-4 left-4 bg-brand-orange text-white text-[10px] font-black uppercase px-3 py-1 rounded-full shadow-lg">${product.badge}</span>` : ''}
+                        <span class="absolute bottom-4 right-4 bg-black/80 backdrop-blur-md text-white font-extrabold text-base px-3 py-1.5 rounded-xl border border-white/10">
+                            R$ ${product.price.toFixed(2).replace('.', ',')}
+                        </span>
+                    </div>
+                    <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
+                        <div>
+                            <h3 class="text-xl font-bold text-white group-hover:text-brand-orange transition-colors">${product.name}</h3>
+                            <p class="text-gray-400 text-xs mt-2 leading-relaxed line-clamp-3">${product.description}</p>
+                        </div>
+                        <button onclick="addToCart(${product.id}, '${product.name.replace(/'/g, "\\'")}', ${product.price}, '${product.image}')" 
+                            class="w-full bg-brand-dark hover:bg-brand-orange border border-brand-border hover:border-brand-orange text-white font-bold py-3 rounded-2xl transition-all duration-300 flex items-center justify-center gap-2 text-sm shadow-md">
+                            <i class="fa-solid fa-plus text-xs"></i>
+                            Adicionar ao Pedido
+                        </button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Filter Categories
+        function filterCategory(category) {
+            document.querySelectorAll('.cat-btn').forEach(btn => {
+                btn.classList.remove('active', 'bg-brand-orange', 'text-white');
+                btn.classList.add('bg-brand-card', 'text-gray-300');
+            });
+            event.currentTarget.classList.remove('bg-brand-card', 'text-gray-300');
+            event.currentTarget.classList.add('active', 'bg-brand-orange', 'text-white');
+
+            if (category === 'all') {
+                renderProducts(products);
+            } else {
+                const filtered = products.filter(p => p.category === category);
+                renderProducts(filtered);
+            }
+        }
+
+        // Cart Actions
+        function addToCart(id, name, price, image) {
+            const existing = cart.find(item => item.id === id);
+            if (existing) {
+                existing.quantity += 1;
+            } else {
+                cart.push({ id, name, price, image, quantity: 1 });
+            }
+            updateCartUI();
+            
+            // Subtle notification feedback
+            const badge = document.getElementById('cart-badge');
+            badge.classList.add('scale-125');
+            setTimeout(() => badge.classList.remove('scale-125'), 200);
+        }
+
+        function updateQuantity(id, delta) {
+            const item = cart.find(i => i.id === id);
+            if (item) {
+                item.quantity += delta;
+                if (item.quantity <= 0) {
+                    cart = cart.filter(i => i.id !== id);
+                }
+            }
+            updateCartUI();
+        }
+
+        function setDeliveryType(type) {
+            deliveryType = type;
+            const btnDel = document.getElementById('btn-delivery');
+            const btnPick = document.getElementById('btn-pickup');
+
+            if (type === 'delivery') {
+                btnDel.className = 'bg-brand-orange text-white py-2 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1';
+                btnPick.className = 'bg-brand-dark text-gray-400 hover:text-white py-2 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1 border border-brand-border';
+                document.getElementById('cust-address').style.display = 'block';
+            } else {
+                btnPick.className = 'bg-brand-orange text-white py-2 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1';
+                btnDel.className = 'bg-brand-dark text-gray-400 hover:text-white py-2 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1 border border-brand-border';
+                document.getElementById('cust-address').style.display = 'none';
+            }
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const cartContainer = document.getElementById('cart-items');
+            const cartBadge = document.getElementById('cart-badge');
+            const floatBadge = document.getElementById('float-badge');
+
+            const totalItems = cart.reduce((acc, i) => acc + i.quantity, 0);
+
+            // Badges
+            if (totalItems > 0) {
+                cartBadge.classList.remove('hidden');
+                cartBadge.textContent = totalItems;
+                floatBadge.textContent = totalItems;
+            } else {
+                cartBadge.classList.add('hidden');
+                floatBadge.textContent = '0';
+            }
+
+            // Empty state
+            if (cart.length === 0) {
+                cartContainer.innerHTML = `
+                    <div class="h-full flex flex-col items-center justify-center text-center p-6 text-gray-500 space-y-3">
+                        <i class="fa-solid fa-basket-shopping text-5xl text-gray-700"></i>
+                        <p class="font-medium text-sm">Seu carrinho está vazio no momento.</p>
+                        <a href="#menu" onclick="toggleCart()" class="text-xs text-brand-orange font-bold hover:underline">Escolher itens no cardápio</a>
+                    </div>
+                `;
+            } else {
+                cartContainer.innerHTML = '';
+                cart.forEach(item => {
+                    const el = document.createElement('div');
+                    el.className = 'flex items-center gap-3 bg-brand-dark p-3 rounded-2xl border border-brand-border/60';
+                    el.innerHTML = `
+                        <img src="${item.image}" alt="${item.name}" class="w-14 h-14 object-cover rounded-xl shrink-0">
+                        <div class="flex-1 min-w-0">
+                            <h4 class="font-bold text-white text-xs truncate">${item.name}</h4>
+                            <span class="text-brand-orange font-extrabold text-xs">R$ ${(item.price * item.quantity).toFixed(2).replace('.', ',')}</span>
+                        </div>
+                        <div class="flex items-center gap-2 bg-brand-card border border-brand-border px-2 py-1 rounded-xl">
+                            <button onclick="updateQuantity(${item.id}, -1)" class="text-gray-400 hover:text-white text-xs px-1 font-bold">-</button>
+                            <span class="text-white text-xs font-bold w-4 text-center">${item.quantity}</span>
+                            <button onclick="updateQuantity(${item.id}, 1)" class="text-gray-400 hover:text-white text-xs px-1 font-bold">+</button>
+                        </div>
+                    `;
+                    cartContainer.appendChild(el);
+                });
+            }
+
+            // Calculations
+            const subtotal = cart.reduce((acc, i) => acc + (i.price * i.quantity), 0);
+            const fee = (deliveryType === 'delivery' && cart.length > 0) ? DELIVERY_FEE : 0.00;
+            const total = subtotal + fee;
+
+            document.getElementById('cart-subtotal').textContent = `R$ ${subtotal.toFixed(2).replace('.', ',')}`;
+            document.getElementById('cart-delivery-fee').textContent = deliveryType === 'delivery' ? `R$ ${DELIVERY_FEE.toFixed(2).replace('.', ',')}` : 'Grátis (Retirada)';
+            document.getElementById('cart-total').textContent = `R$ ${total.toFixed(2).replace('.', ',')}`;
+        }
+
+        // Toggle Drawer Visibility
+        function toggleCart() {
+            const drawer = document.getElementById('cart-drawer');
+            const panel = document.getElementById('cart-panel');
+            
+            if (drawer.classList.contains('opacity-0')) {
+                drawer.classList.remove('opacity-0', 'pointer-events-none');
+                panel.classList.remove('translate-x-full');
+            } else {
+                drawer.classList.add('opacity-0', 'pointer-events-none');
+                panel.classList.add('translate-x-full');
+            }
+        }
+
+        // Checkout to WhatsApp
+        function checkoutWhatsApp() {
+            if (cart.length === 0) {
+                alert('Seu carrinho está vazio! Adicione itens antes de enviar o pedido.');
+                return;
+            }
+
+            const name = document.getElementById('cust-name').value.trim();
+            const address = document.getElementById('cust-address').value.trim();
+            const payment = document.getElementById('cust-payment').value;
+            const notes = document.getElementById('cust-notes').value.trim();
+
+            if (!name) {
+                alert('Por favor, informe seu nome para o pedido.');
+                return;
+            }
+
+            if (deliveryType === 'delivery' && !address) {
+                alert('Por favor, informe o endereço de entrega completo.');
+                return;
+            }
+
+            // Formatting Order Message
+            let message = `🍔 *NOVO PEDIDO - BURGUER ART*\n`;
+            message += `-----------------------------------\n`;
+            message += `👤 *Cliente:* ${name}\n`;
+            message += `📍 *Tipo:* ${deliveryType === 'delivery' ? 'Entrega em Domicílio' : 'Retirada no Balcão'}\n`;
+            if (deliveryType === 'delivery') {
+                message += `🏠 *Endereço:* ${address}\n`;
+            }
+            message += `💳 *Pagamento:* ${payment}\n`;
+            if (notes) message += `📝 *Obs:* ${notes}\n`;
+            message += `-----------------------------------\n`;
+            message += `🛒 *ITENS DO PEDIDO:*\n\n`;
+
+            cart.forEach(item => {
+                message += `• ${item.quantity}x ${item.name} - R$ ${(item.price * item.quantity).toFixed(2).replace('.', ',')}\n`;
+            });
+
+            const subtotal = cart.reduce((acc, i) => acc + (i.price * i.quantity), 0);
+            const fee = (deliveryType === 'delivery') ? DELIVERY_FEE : 0;
+            const total = subtotal + fee;
+
+            message += `\n-----------------------------------\n`;
+            message += `Subtotal: R$ ${subtotal.toFixed(2).replace('.', ',')}\n`;
+            if (deliveryType === 'delivery') message += `Taxa de Entrega: R$ ${DELIVERY_FEE.toFixed(2).replace('.', ',')}\n`;
+            message += `*TOTAL: R$ ${total.toFixed(2).replace('.', ',')}*\n`;
+            message += `-----------------------------------\n`;
+            message += `Aguardando confirmação! 🚀`;
+
+            const phone = "5521999999999"; // Substituir pelo número da hamburgueria
+            const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+            window.open(url, '_blank');
+        }
+
+        // Promo Timer Countdown Simulator
+        function startTimer() {
+            let duration = 4 * 3600 + 12 * 60 + 30; // 4h 12m 30s
+            const timerDisplay = document.getElementById('countdown');
+            setInterval(() => {
+                let hours = Math.floor(duration / 3600);
+                let minutes = Math.floor((duration % 3600) / 60);
+                let seconds = duration % 60;
+
+                hours = hours < 10 ? "0" + hours : hours;
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                timerDisplay.textContent = `${hours}:${minutes}:${seconds}`;
+
+                if (--duration < 0) duration = 4 * 3600;
+            }, 1000);
+        }
+
+        // Initialize App on load
+        window.onload = function() {
+            renderProducts(products);
+            startTimer();
+        };
+    </script>
+</body>
+</html>
